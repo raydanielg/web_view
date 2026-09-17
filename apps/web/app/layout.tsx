@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@workspace/ui/components/toast"
 import { TooltipProvider } from "@workspace/ui/components/tooltip"
 import { cn } from "@workspace/ui/lib/utils";
 
@@ -38,7 +39,9 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <Toaster>{children}</Toaster>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

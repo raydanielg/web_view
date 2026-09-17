@@ -15,15 +15,19 @@ import {
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from "@workspace/ui/components/input-group"
 import { Spinner } from "@workspace/ui/components/spinner"
+import { toast } from "@workspace/ui/components/toast"
 import { apiPost, type AuthResponse } from "@/lib/api"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   LayoutBottomIcon,
   LockIcon,
   Mail01Icon,
+  ViewIcon,
+  ViewOffIcon,
 } from "@hugeicons/core-free-icons"
 
 export function LoginForm({
@@ -33,6 +37,7 @@ export function LoginForm({
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -42,13 +47,20 @@ export function LoginForm({
     setError(null)
     const form = new FormData(event.currentTarget)
     try {
-      await apiPost<AuthResponse>("/api/auth/login", {
+      const data = await apiPost<AuthResponse>("/api/auth/login", {
         email: form.get("email"),
         password: form.get("password"),
       })
+      toast.add({
+        title: `Karibu, ${data.user.firstName}!`,
+        description: "Logged in successfully",
+        type: "success",
+      })
       router.push("/dashboard")
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed")
+      const message = err instanceof Error ? err.message : "Login failed"
+      setError(message)
+      toast.add({ title: "Login failed", description: message, type: "error" })
     } finally {
       setIsLoading(false)
     }
@@ -103,10 +115,23 @@ export function LoginForm({
               <InputGroupInput
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 required
               />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  size="icon-xs"
+                  variant="ghost"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword((v) => !v)}
+                >
+                  <HugeiconsIcon
+                    icon={showPassword ? ViewOffIcon : ViewIcon}
+                    strokeWidth={2}
+                  />
+                </InputGroupButton>
+              </InputGroupAddon>
             </InputGroup>
           </Field>
           {error && (

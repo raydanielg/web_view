@@ -15,9 +15,11 @@ import {
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from "@workspace/ui/components/input-group"
 import { Spinner } from "@workspace/ui/components/spinner"
+import { toast } from "@workspace/ui/components/toast"
 import { apiPost, type AuthResponse } from "@/lib/api"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
@@ -26,6 +28,8 @@ import {
   Mail01Icon,
   UnfoldMoreIcon,
   UserIcon,
+  ViewIcon,
+  ViewOffIcon,
 } from "@hugeicons/core-free-icons"
 
 export function SignupForm({
@@ -35,6 +39,7 @@ export function SignupForm({
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -44,16 +49,23 @@ export function SignupForm({
     setError(null)
     const form = new FormData(event.currentTarget)
     try {
-      await apiPost<AuthResponse>("/api/auth/signup", {
+      const data = await apiPost<AuthResponse>("/api/auth/signup", {
         firstName: form.get("firstName"),
         lastName: form.get("lastName"),
         email: form.get("email"),
         phone: `${form.get("countryCode")}${form.get("phone")}`,
         password: form.get("password"),
       })
+      toast.add({
+        title: `Karibu, ${data.user.firstName}!`,
+        description: "Account created successfully",
+        type: "success",
+      })
       router.push("/dashboard")
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign up failed")
+      const message = err instanceof Error ? err.message : "Sign up failed"
+      setError(message)
+      toast.add({ title: "Sign up failed", description: message, type: "error" })
     } finally {
       setIsLoading(false)
     }
@@ -188,10 +200,24 @@ export function SignupForm({
               <InputGroupInput
                 id="password"
                 name="password"
-                type="password"
-                placeholder="Create a password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Create a password (min 8 chars)"
+                minLength={8}
                 required
               />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  size="icon-xs"
+                  variant="ghost"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword((v) => !v)}
+                >
+                  <HugeiconsIcon
+                    icon={showPassword ? ViewOffIcon : ViewIcon}
+                    strokeWidth={2}
+                  />
+                </InputGroupButton>
+              </InputGroupAddon>
             </InputGroup>
           </Field>
           {error && (
