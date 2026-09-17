@@ -17,6 +17,7 @@ import {
   InputGroupInput,
 } from "@workspace/ui/components/input-group"
 import { Spinner } from "@workspace/ui/components/spinner"
+import { apiPost, type AuthResponse } from "@/lib/api"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   LayoutBottomIcon,
@@ -32,12 +33,28 @@ export function SignupForm({
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (isLoading) return
     setIsLoading(true)
-    setTimeout(() => setIsLoading(false), 2000)
+    setError(null)
+    const form = new FormData(event.currentTarget)
+    try {
+      const data = await apiPost<AuthResponse>("/api/auth/signup", {
+        firstName: form.get("firstName"),
+        lastName: form.get("lastName"),
+        email: form.get("email"),
+        phone: `${form.get("countryCode")}${form.get("phone")}`,
+        password: form.get("password"),
+      })
+      localStorage.setItem("xerin_token", data.token)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sign up failed")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function handleGoogle() {
@@ -78,6 +95,7 @@ export function SignupForm({
                 </InputGroupAddon>
                 <InputGroupInput
                   id="first-name"
+                  name="firstName"
                   type="text"
                   placeholder="John"
                   required
@@ -92,6 +110,7 @@ export function SignupForm({
                 </InputGroupAddon>
                 <InputGroupInput
                   id="last-name"
+                  name="lastName"
                   type="text"
                   placeholder="Doe"
                   required
@@ -107,6 +126,7 @@ export function SignupForm({
               </InputGroupAddon>
               <InputGroupInput
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
                 required
@@ -120,6 +140,7 @@ export function SignupForm({
                 <div className="relative flex items-center">
                   <select
                     aria-label="Country code"
+                    name="countryCode"
                     defaultValue="+255"
                     className="cursor-pointer appearance-none bg-transparent pe-4 text-sm font-medium outline-none"
                   >
@@ -146,6 +167,7 @@ export function SignupForm({
               </InputGroupAddon>
               <InputGroupInput
                 id="phone"
+                name="phone"
                 type="tel"
                 inputMode="numeric"
                 pattern="[0-9]{9}"
@@ -163,12 +185,18 @@ export function SignupForm({
               </InputGroupAddon>
               <InputGroupInput
                 id="password"
+                name="password"
                 type="password"
                 placeholder="Create a password"
                 required
               />
             </InputGroup>
           </Field>
+          {error && (
+            <FieldDescription className="text-destructive">
+              {error}
+            </FieldDescription>
+          )}
           <Field>
             <Button type="submit" disabled={isLoading}>
               {isLoading ? (

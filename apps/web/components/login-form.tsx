@@ -17,6 +17,7 @@ import {
   InputGroupInput,
 } from "@workspace/ui/components/input-group"
 import { Spinner } from "@workspace/ui/components/spinner"
+import { apiPost, type AuthResponse } from "@/lib/api"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   LayoutBottomIcon,
@@ -30,12 +31,25 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (isLoading) return
     setIsLoading(true)
-    setTimeout(() => setIsLoading(false), 2000)
+    setError(null)
+    const form = new FormData(event.currentTarget)
+    try {
+      const data = await apiPost<AuthResponse>("/api/auth/login", {
+        email: form.get("email"),
+        password: form.get("password"),
+      })
+      localStorage.setItem("xerin_token", data.token)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Login failed")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function handleGoogle() {
@@ -71,6 +85,7 @@ export function LoginForm({
               </InputGroupAddon>
               <InputGroupInput
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
                 required
@@ -85,12 +100,18 @@ export function LoginForm({
               </InputGroupAddon>
               <InputGroupInput
                 id="password"
+                name="password"
                 type="password"
                 placeholder="Enter your password"
                 required
               />
             </InputGroup>
           </Field>
+          {error && (
+            <FieldDescription className="text-destructive">
+              {error}
+            </FieldDescription>
+          )}
           <Field>
             <Button type="submit" disabled={isLoading}>
               {isLoading ? (
