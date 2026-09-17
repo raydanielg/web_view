@@ -273,7 +273,7 @@ export function SignupForm({
         </FieldGroup>
       </form>
       <FieldDescription className="px-6 text-center">
-        By clicking, you agree to our <a href="#">Terms and Policy</a>.
+        By clicking, you agree to our <a href="/terms" className="underline underline-offset-2 hover:text-foreground">Terms</a> and <a href="/policy" className="underline underline-offset-2 hover:text-foreground">Policy</a>.
       </FieldDescription>
     </div>
   )
