@@ -42,11 +42,10 @@ export function LoginForm({
     setError(null)
     const form = new FormData(event.currentTarget)
     try {
-      const data = await apiPost<AuthResponse>("/api/auth/login", {
+      await apiPost<AuthResponse>("/api/auth/login", {
         email: form.get("email"),
         password: form.get("password"),
       })
-      localStorage.setItem("xerin_token", data.token)
       router.push("/dashboard")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed")

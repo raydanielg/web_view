@@ -44,14 +44,13 @@ export function SignupForm({
     setError(null)
     const form = new FormData(event.currentTarget)
     try {
-      const data = await apiPost<AuthResponse>("/api/auth/signup", {
+      await apiPost<AuthResponse>("/api/auth/signup", {
         firstName: form.get("firstName"),
         lastName: form.get("lastName"),
         email: form.get("email"),
         phone: `${form.get("countryCode")}${form.get("phone")}`,
         password: form.get("password"),
       })
-      localStorage.setItem("xerin_token", data.token)
       router.push("/dashboard")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign up failed")
