@@ -14,154 +14,132 @@ import {
   SidebarRail,
 } from "@workspace/ui/components/sidebar"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { LayoutBottomIcon, AudioWave01Icon, CommandIcon, ComputerTerminalIcon, RoboticIcon, BookOpen02Icon, Settings05Icon, CropIcon, PieChartIcon, MapsIcon } from "@hugeicons/core-free-icons"
+import {
+  DashboardSquare01Icon,
+  PackageIcon,
+  PackageOpenIcon,
+  AirplaneTakeOff01Icon,
+  AirplaneLanding01Icon,
+  WarehouseIcon,
+  TruckIcon,
+  Invoice01Icon,
+  CheckmarkBadge01Icon,
+  UserMultiple02Icon,
+  Settings05Icon,
+  SecurityCheckIcon,
+  BoxIcon,
+} from "@hugeicons/core-free-icons"
 
-// This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "Xerin Staff",
+    email: "staff@xerin.co",
+    avatar: "",
   },
   teams: [
     {
-      name: "Acme Inc",
-      logo: (
-        <HugeiconsIcon icon={LayoutBottomIcon} strokeWidth={2} />
-      ),
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: (
-        <HugeiconsIcon icon={AudioWave01Icon} strokeWidth={2} />
-      ),
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: (
-        <HugeiconsIcon icon={CommandIcon} strokeWidth={2} />
-      ),
-      plan: "Free",
+      name: "Xerin Warehouse",
+      logo: <HugeiconsIcon icon={WarehouseIcon} strokeWidth={2} />,
+      plan: "Dubai → Tanzania",
     },
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={ComputerTerminalIcon} strokeWidth={2} />
-      ),
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: <HugeiconsIcon icon={DashboardSquare01Icon} strokeWidth={2} />,
       isActive: true,
+      items: [{ title: "Overview", url: "/dashboard" }],
+    },
+    {
+      title: "Dubai Receiving",
+      url: "/dashboard/shipments",
+      icon: <HugeiconsIcon icon={PackageIcon} strokeWidth={2} />,
       items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
+        { title: "All Shipments", url: "/dashboard/shipments" },
+        { title: "Awaiting Consolidation", url: "/dashboard/shipments?status=Awaiting%20Consolidation" },
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={RoboticIcon} strokeWidth={2} />
-      ),
+      title: "Consolidation",
+      url: "/dashboard/boxes",
+      icon: <HugeiconsIcon icon={PackageOpenIcon} strokeWidth={2} />,
       items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
+        { title: "Boxes", url: "/dashboard/boxes" },
+        { title: "Open Boxes", url: "/dashboard/boxes?status=Open" },
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={BookOpen02Icon} strokeWidth={2} />
-      ),
+      title: "Trips",
+      url: "/dashboard/trips",
+      icon: <HugeiconsIcon icon={AirplaneTakeOff01Icon} strokeWidth={2} />,
+      items: [{ title: "Trip Manifest", url: "/dashboard/trips" }],
+    },
+    {
+      title: "Warehouse TZ",
+      url: "/dashboard/warehouse",
+      icon: <HugeiconsIcon icon={WarehouseIcon} strokeWidth={2} />,
       items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
+        { title: "On Shelf", url: "/dashboard/warehouse" },
+        { title: "Ready for Collection", url: "/dashboard/warehouse?status=Ready%20for%20Collection" },
+        { title: "Old Stock", url: "/dashboard/warehouse?status=Old%20Stock" },
       ],
     },
     {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={Settings05Icon} strokeWidth={2} />
-      ),
+      title: "Deliveries",
+      url: "/dashboard/deliveries",
+      icon: <HugeiconsIcon icon={TruckIcon} strokeWidth={2} />,
       items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
+        { title: "Delivery Register", url: "/dashboard/deliveries" },
+        { title: "Out for Delivery", url: "/dashboard/deliveries?status=Out%20for%20Delivery" },
+      ],
+    },
+    {
+      title: "Finance",
+      url: "/dashboard/invoices",
+      icon: <HugeiconsIcon icon={Invoice01Icon} strokeWidth={2} />,
+      items: [
+        { title: "Invoices", url: "/dashboard/invoices" },
+        { title: "Payment Approvals", url: "/dashboard/approvals" },
+      ],
+    },
+    {
+      title: "Customers",
+      url: "/dashboard/customers",
+      icon: <HugeiconsIcon icon={UserMultiple02Icon} strokeWidth={2} />,
+      items: [{ title: "All Customers", url: "/dashboard/customers" }],
+    },
+    {
+      title: "Administration",
+      url: "/dashboard/users",
+      icon: <HugeiconsIcon icon={Settings05Icon} strokeWidth={2} />,
+      items: [
+        { title: "Users & Roles", url: "/dashboard/users" },
+        { title: "Configuration", url: "/dashboard/config" },
+        { title: "Audit Log", url: "/dashboard/audit" },
       ],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={CropIcon} strokeWidth={2} />
-      ),
+      name: "Dubai Pipeline",
+      url: "/dashboard/shipments?status=Departed%20Dubai",
+      icon: <HugeiconsIcon icon={AirplaneTakeOff01Icon} strokeWidth={2} />,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={PieChartIcon} strokeWidth={2} />
-      ),
+      name: "TZ Arrivals",
+      url: "/dashboard/shipments?status=Arrived%20Tanzania",
+      icon: <HugeiconsIcon icon={AirplaneLanding01Icon} strokeWidth={2} />,
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={MapsIcon} strokeWidth={2} />
-      ),
+      name: "Approvals Queue",
+      url: "/dashboard/approvals",
+      icon: <HugeiconsIcon icon={CheckmarkBadge01Icon} strokeWidth={2} />,
+    },
+    {
+      name: "Audit Trail",
+      url: "/dashboard/audit",
+      icon: <HugeiconsIcon icon={SecurityCheckIcon} strokeWidth={2} />,
     },
   ],
 }
