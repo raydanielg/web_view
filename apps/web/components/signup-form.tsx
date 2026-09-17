@@ -62,9 +62,9 @@ export function SignupForm({
                   className="size-6"
                 />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">Xerin Warehouse</span>
             </a>
-            <h1 className="text-xl font-bold">Create your account</h1>
+            <h1 className="text-xl font-bold">Join Xerin Warehouse</h1>
             <FieldDescription>
               Already have an account? <a href="/login">Log in</a>
             </FieldDescription>

@@ -56,9 +56,9 @@ export function LoginForm({
               <div className="flex size-8 items-center justify-center rounded-md">
                 <HugeiconsIcon icon={LayoutBottomIcon} strokeWidth={2} className="size-6" />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">Xerin Warehouse</span>
             </a>
-            <h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
+            <h1 className="text-xl font-bold">Welcome to Xerin Warehouse</h1>
             <FieldDescription>
               Don&apos;t have an account? <a href="/signup">Sign up</a>
             </FieldDescription>

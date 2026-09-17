@@ -14,6 +14,11 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+export const metadata = {
+  title: "Xerin Warehouse",
+  description: "Xerin Warehouse management system",
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
