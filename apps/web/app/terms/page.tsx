@@ -111,6 +111,7 @@ export default function TermsPage() {
         <ThemeToggle />
       </div>
       <div className="mx-auto max-w-3xl px-6 py-16">
+        <div className="rounded-2xl border bg-background/70 p-6 shadow-sm backdrop-blur sm:p-10">
         <Link
           href="/"
           className="mb-8 inline-flex items-center gap-2 text-sm font-medium"
@@ -119,10 +120,10 @@ export default function TermsPage() {
           Xerin Warehouse
         </Link>
         <h1 className="text-3xl font-bold tracking-tight">Terms of Service</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-sm text-foreground/70">
           Effective date: 17 September 2026 · Version 1.0
         </p>
-        <div className="mt-6 rounded-lg border border-orange-200 bg-orange-50 p-4 text-sm dark:border-orange-900 dark:bg-orange-950/40">
+        <div className="mt-6 rounded-lg border border-orange-200 bg-orange-50 p-4 text-sm text-foreground dark:border-orange-900 dark:bg-orange-950/40">
           <strong>Authorized users only.</strong> This system is monitored.
           All activity is logged in an audit trail. If you are not authorized
           to be here, close this page now — access attempts are recorded.
@@ -131,7 +132,7 @@ export default function TermsPage() {
           {sections.map((s) => (
             <section key={s.title}>
               <h2 className="text-lg font-semibold">{s.title}</h2>
-              <div className="mt-3 space-y-3 text-sm leading-6 text-muted-foreground">
+              <div className="mt-3 space-y-3 text-sm leading-6 text-foreground/75">
                 {s.body.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
@@ -139,7 +140,7 @@ export default function TermsPage() {
             </section>
           ))}
         </div>
-        <footer className="mt-16 flex gap-6 border-t pt-6 text-sm text-muted-foreground">
+        <footer className="mt-16 flex gap-6 border-t pt-6 text-sm text-foreground/70">
           <Link href="/" className="hover:text-foreground">
             ← Back to login
           </Link>
@@ -147,6 +148,7 @@ export default function TermsPage() {
             Privacy Policy →
           </Link>
         </footer>
+      </div>
       </div>
     </div>
   )
